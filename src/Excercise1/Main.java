@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-package Excercise1;
 
 class Month {
     private String name;
