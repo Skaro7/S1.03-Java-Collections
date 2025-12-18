@@ -53,7 +53,7 @@ public class ReadFile {
                     System.out.println("Correct!");
                 }
                 if (score == 10) {
-                    System.out.println("You've won the game!");
+                    System.out.println("You've won the game! " + userName);
                     break;
                 } else {
                     System.out.println("Incorrect. The capital is: " + countries.get(country).replace("_", " "));
