@@ -1,10 +1,7 @@
 package Excercise3;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.*;
-import java.io.IOException;
 
 
 public class ReadFile {
@@ -42,27 +39,33 @@ public class ReadFile {
         int questions = 0;
 
         while (questions < 10) {
-            for (int i = 0; i < countryList.size(); i++) {
-                String country = countryList.get(random.nextInt(countryList.size()));
-                System.out.print("What is the capital of " + country + "? ");
-                String userAnswer = scanner.nextLine();
+            String country = countryList.get(random.nextInt(countryList.size()));
+            System.out.print("What is the capital of " + country + "? ");
+            String userAnswer = scanner.nextLine();
+            String correctAnswer = countries.get(country);
 
-                String correctAnswer = countries.get(country);
-                if (userAnswer.equalsIgnoreCase(countries.get(country).replace("_", " "))) {
-                    score++;
-                    System.out.println("Correct!");
-                }
-                if (score == 10) {
-                    System.out.println("You've won the game! " + userName);
-                    break;
-                } else {
-                    System.out.println("Incorrect. The capital is: " + countries.get(country).replace("_", " "));
-                }
-                questions++;
+            if (userAnswer.equalsIgnoreCase(countries.get(country).replace("_", " "))) {
+                score++;
+                System.out.println("Correct!");
+            } else {
+                System.out.println("Incorrect. The capital is: " + countries.get(country).replace("_", " "));
             }
-            System.out.println("Your final score is: " + score + "/10");
+            questions++;
+        }
+
+        if (questions == 10) {
+            System.out.println("Game Over! " + userName + ", your score is: " + score + "/10");
+        }
+        if (score == 10) {
+            System.out.println("Perfect Score! " + userName);
         }
             scanner.close();
+
+            try (FileWriter writer = new FileWriter("src/Excercise3/classificacio.txt", true)) {
+                writer.write(userName + ": " + score + "/10\n");
+            } catch (IOException e) {
+                System.out.println("Error saving score.");
+            }
         }
     }
 
