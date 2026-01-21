@@ -3,13 +3,19 @@ package Excercise3;
 import java.io.*;
 import java.util.*;
 
+public class CapitalGame {
+    private HashMap<String, String> countries;
+    private Scanner scanner;
 
-public class ReadFile {
-    static void main() {
+    public void startGame() {
+        loadCountriesFromFile();
+        playGame();
+    }
 
-        HashMap<String, String> countries = new HashMap<>();
+    private void loadCountriesFromFile() {
+        countries = new HashMap<>();
 
-        try (BufferedReader reader = new BufferedReader(new java.io.FileReader("src/Excercise3/countries.txt"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/Excercise3/countries.txt"))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(" ");
@@ -20,16 +26,15 @@ public class ReadFile {
                         capital += " " + parts[i];
                     }
                     countries.put(country.trim(), capital.trim());
-
                 }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
 
-        //game
-
-        Scanner scanner = new Scanner(System.in);
+    private void playGame() {
+        scanner = new Scanner(System.in);
         System.out.print("Enter your name: ");
         String userName = scanner.nextLine();
 
@@ -59,13 +64,16 @@ public class ReadFile {
         if (score == 10) {
             System.out.println("Perfect Score! " + userName);
         }
-            scanner.close();
 
-            try (FileWriter writer = new FileWriter("src/Excercise3/classificacio.txt", true)) {
-                writer.write(userName + ": " + score + "/10\n");
-            } catch (IOException e) {
-                System.out.println("Error saving score.");
-            }
-        }
+        scanner.close();
+        saveScoreToFile(userName, score);
     }
 
+    private void saveScoreToFile(String userName, int score) {
+        try (FileWriter writer = new FileWriter("src/Excercise3/classificacio.txt", true)) {
+            writer.write(userName + ": " + score + "/10\n");
+        } catch (IOException e) {
+            System.out.println("Error saving score.");
+        }
+    }
+}
